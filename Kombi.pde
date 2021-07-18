@@ -39,8 +39,17 @@ class Kombi {
         float trimWidth = kombiWidth*0.05;
         float bumperHeight = kombiHeight*0.05;
         float licensePlateWidth = kombiWidth*0.25;
+
+        /* Headlight Atributes */
         float headlightRadius = kombiWidth*0.15;
+        color headlightColor = color(#DCDCDC);
+        color headlightExternalColor = color(#D1D1D1);
+        
+        /* Signal light Atributes */
         float signalLightRadius = kombiWidth*0.08;
+        color signalLightColor = color(#ffbc40);
+        color signalLightExternalColor = color(#D1D1D1);
+
 
         /*  The top of kombi is 10%(5% in each side) narrow than the bottom
             and the car greenhouse has 40% of kombi's kombiHeight
@@ -78,27 +87,27 @@ class Kombi {
         text("ABC-1234", centerX, kombiHeight-bumperHeight/4);
 
         /* Left car headlight */
-        fill(#d1d1d1);
+        fill(headlightExternalColor);
         ellipse(kombiWidth*0.005+headlightRadius, centerY*1.3, headlightRadius*1.1, headlightRadius*1.1);
-        fill(#DCDCDC);
+        fill(headlightColor);
         ellipse(kombiWidth*0.005+headlightRadius, centerY*1.3, headlightRadius, headlightRadius);
 
         /* Right car headlight */
-        fill(#d1d1d1);
+        fill(headlightExternalColor);
         ellipse(kombiWidth*0.995-headlightRadius, centerY*1.3, headlightRadius*1.1, headlightRadius*1.1);
-        fill(#DCDCDC);
+        fill(headlightColor);
         ellipse(kombiWidth*0.995-headlightRadius, centerY*1.3, headlightRadius, headlightRadius);
 
         /* Left signal light */
-        fill(#DCDCDC);
+        fill(signalLightExternalColor);
         ellipse(kombiWidth*0.003+signalLightRadius, centerY*1.1, signalLightRadius*1.2, signalLightRadius*1.2);
-        fill(#ffbc40);
+        fill(signalLightColor);
         ellipse(kombiWidth*0.003+signalLightRadius, centerY*1.1, signalLightRadius, signalLightRadius);
 
         /* Right signal light */
-        fill(#DCDCDC);
+        fill(signalLightExternalColor);
         ellipse(kombiWidth*0.997-signalLightRadius, centerY*1.1, signalLightRadius*1.2, signalLightRadius*1.2);
-        fill(#ffbc40);
+        fill(signalLightColor);
         ellipse(kombiWidth*0.997-signalLightRadius, centerY*1.1, signalLightRadius, signalLightRadius);
 
         
