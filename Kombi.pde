@@ -43,12 +43,12 @@ class Kombi {
         float bumperHeight = kombiHeight*0.05;
         float licensePlateWidth = kombiWidth*0.25;
 
-        /* Headlight Attributes */
+        /* Headlight attributes */
         float headlightRadius = kombiWidth*0.15;
         color headlightColor = color(#DCDCDC);
         color headlightExternalColor = color(#D1D1D1);
         
-        /* Signal light Attributes */
+        /* Signal light attributes */
         float signalLightRadius = kombiWidth*0.08;
         color signalLightColor = color(#ffbc40);
         color signalLightExternalColor = color(#D1D1D1);
@@ -64,6 +64,9 @@ class Kombi {
 
         /* Logo attributes */
         float logoRadius = kombiWidth*0.2;
+        
+        /* Rearview attributes */
+        float rearviewRadius = kombiWidth*0.07;
 
         /*  The top of kombi is 10%(5% in each side) narrow than the bottom
             and the car greenhouse has 40% of kombi's kombiHeight
@@ -180,6 +183,24 @@ class Kombi {
         translate(kombiWidth*0.15+windowWidth*0.5, windowHeight);
         rotate(-2.0*PI/6.0);
         line(0, 0, windowWidth*0.5, 0);
+        popMatrix();
+
+        /* Left Rearview*/
+        stroke(tertiaryColor);
+        fill(secondaryColor);
+        ellipse(-kombiWidth*0.05, greenhouseHeight*0.9, rearviewRadius, rearviewRadius);
+        line(0, greenhouseHeight, -kombiWidth*0.05, greenhouseHeight*0.9);
+        pushMatrix();
+
+
+        /* Right Rearview*/
+        translate(centerX, 0);
+        scale(-1,1);
+        translate(-centerX, 0);
+        fill(secondaryColor);
+        ellipse(-kombiWidth*0.05, greenhouseHeight*0.9, rearviewRadius, rearviewRadius);
+        stroke(tertiaryColor);
+        line(0, greenhouseHeight, -kombiWidth*0.05, greenhouseHeight*0.9);
         popMatrix();
         
         /* Logo */
