@@ -33,19 +33,22 @@ class Kombi {
 
     //TODO: We need a better name for this method
     void create() {
+        /* Bodywork attributes */
         float roofHeight = kombiHeight*0.1;
         float greenhouseHeight = kombiHeight*0.4;
         float frontHeight = kombiHeight - greenhouseHeight;
         float trimWidth = kombiWidth*0.05;
+
+        /* bumper attributes */
         float bumperHeight = kombiHeight*0.05;
         float licensePlateWidth = kombiWidth*0.25;
 
-        /* Headlight Atributes */
+        /* Headlight Attributes */
         float headlightRadius = kombiWidth*0.15;
         color headlightColor = color(#DCDCDC);
         color headlightExternalColor = color(#D1D1D1);
         
-        /* Signal light Atributes */
+        /* Signal light Attributes */
         float signalLightRadius = kombiWidth*0.08;
         color signalLightColor = color(#ffbc40);
         color signalLightExternalColor = color(#D1D1D1);
@@ -58,6 +61,9 @@ class Kombi {
         float windowHeight =(greenhouseHeight-roofHeight)*0.8;
         float windowWidth = kombiWidth*0.325;
         float verticalPadding = (greenhouseHeight-roofHeight)*0.1;
+
+        /* Logo attributes */
+        float logoRadius = kombiWidth*0.2;
 
         /*  The top of kombi is 10%(5% in each side) narrow than the bottom
             and the car greenhouse has 40% of kombi's kombiHeight
@@ -134,6 +140,7 @@ class Kombi {
         fill(windowColor);
         pushMatrix();
         translate(0, roofHeight+verticalPadding);
+        strokeWeight(3);
         /* Right window */
         quad(
             kombiWidth*0.15, 0,
@@ -157,7 +164,7 @@ class Kombi {
         
         /* Left windshield wiper */
         pushMatrix();
-        strokeWeight(5);
+        strokeWeight(7);
         translate(0, roofHeight+verticalPadding);
         translate(kombiWidth*0.15+windowWidth*0.5, windowHeight);
         rotate(-4.0*PI/6.0);
@@ -175,5 +182,14 @@ class Kombi {
         line(0, 0, windowWidth*0.5, 0);
         popMatrix();
         
+        /* Logo */
+        stroke(0);
+        strokeWeight(trimWidth/2);
+        noFill();
+        arc(centerX, centerY, logoRadius, logoRadius, PI, 2*PI, CHORD);
+        fill(255);
+        arc(centerX, centerY, logoRadius, logoRadius, 0, PI, CHORD);
+        fill(tertiaryColor);
+        ellipse(centerX, centerY, logoRadius*0.2, logoRadius*0.2);
     }
 }
