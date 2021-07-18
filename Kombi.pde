@@ -187,6 +187,7 @@ class Kombi {
 
         /* Left Rearview*/
         stroke(tertiaryColor);
+        strokeWeight(rearviewRadius*0.1);
         fill(secondaryColor);
         ellipse(-kombiWidth*0.05, greenhouseHeight*0.9, rearviewRadius, rearviewRadius);
         line(0, greenhouseHeight, -kombiWidth*0.05, greenhouseHeight*0.9);
