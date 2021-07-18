@@ -101,7 +101,7 @@ class Kombi {
         fill(0);
         textAlign(CENTER);
         textSize(bumperHeight*0.8);
-        text("ABC-1234", centerX, kombiHeight-bumperHeight/4);
+        text("ABC-1234", centerX, kombiHeight*1.005-bumperHeight/4);
 
         /* Left car headlight */
         fill(headlightExternalColor);
@@ -207,10 +207,10 @@ class Kombi {
         stroke(0);
         strokeWeight(trimWidth/2);
         noFill();
-        arc(centerX, centerY, logoRadius, logoRadius, PI, 2*PI, CHORD);
+        arc(centerX, centerY*1.1, logoRadius, logoRadius, PI, 2*PI, CHORD);
         fill(255);
-        arc(centerX, centerY, logoRadius, logoRadius, 0, PI, CHORD);
+        arc(centerX, centerY*1.1, logoRadius, logoRadius, 0, PI, CHORD);
         fill(tertiaryColor);
-        ellipse(centerX, centerY, logoRadius*0.2, logoRadius*0.2);
+        ellipse(centerX, centerY*1.1, logoRadius*0.2, logoRadius*0.2);
     }
 }

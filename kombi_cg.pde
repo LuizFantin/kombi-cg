@@ -1,8 +1,8 @@
 Kombi kombi;
 void setup() {
-    size(1000, 1000);
+    size(512, 512);
     background(255);
-    kombi = new Kombi(150.0, 100.0, 700.0, 800.0);
+    kombi = new Kombi(50.0, 50.0, 350.0, 400.0);
 
     noLoop();
 }
