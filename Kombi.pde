@@ -5,13 +5,23 @@ class Kombi {
 
     private float centerX;
     private float centerY;
+
     private float kombiWidth;
     private float kombiHeight;
 
-    private color primaryColor = color(255, 0, 0);
-    private color secondaryColor = color(20);
-    private color tertiaryColor = color(180, 180, 180);
-    private color windowColor = color(255); 
+    private BodyCar bodyCar;
+    private SignalLight leftSignalLight;
+    private SignalLight rightSignalLight;
+
+    private Windshield leftWindshield;
+    private Windshield rightWindshield;
+
+    private Headlight leftHeadlight;
+    private Headlight rightHeadlight;
+
+    private Rearview leftRearview;
+    private Rearview rightRearview;
+
     Kombi(float posX, float posY, float w, float h) {
         positionX = posX;
         positionY = posY;
@@ -19,199 +29,70 @@ class Kombi {
         kombiHeight = h;
         centerX = kombiWidth/2;
         centerY = kombiHeight/2;
+
+        initialize();
     }
 
     void display() {
         //This way, we can use (0, 0) as our referential point while drawing the kombi
-        pushMatrix();
+        push();
         translate(positionX, positionY);
-        create();
-        translate(-positionX, -positionY);
-        popMatrix();
-        
+        drawKombi();
+        pop();
     }
 
-    //TODO: We need a better name for this method
-    void create() {
-        /* Bodywork attributes */
-        float roofHeight = kombiHeight*0.1;
-        float greenhouseHeight = kombiHeight*0.4;
-        float frontHeight = kombiHeight - greenhouseHeight;
-        float trimWidth = kombiWidth*0.05;
+    private void initialize() {
+        float bodyCarWidth = kombiWidth*0.7;
+        float carLeftSide = kombiWidth*0.15;
 
-        /* bumper attributes */
-        float bumperHeight = kombiHeight*0.05;
-        float licensePlateWidth = kombiWidth*0.25;
+        bodyCar = new BodyCar(carLeftSide, 0, bodyCarWidth, kombiHeight);
 
-        /* Headlight attributes */
-        float headlightRadius = kombiWidth*0.15;
-        color headlightColor = color(#DCDCDC);
-        color headlightExternalColor = color(#D1D1D1);
-        
-        /* Signal light attributes */
-        float signalLightRadius = kombiWidth*0.08;
-        color signalLightColor = color(#ffbc40);
-        color signalLightExternalColor = color(#D1D1D1);
+        float headlightRadius = kombiWidth*0.12;
+        float headlightPosX = kombiWidth*0.005+carLeftSide;
+        float headlightPosY = centerY*1.1;
+        leftHeadlight  = new Headlight(headlightPosX, headlightPosY, headlightRadius);
+        rightHeadlight = new Headlight(headlightPosX, headlightPosY, headlightRadius);
 
-        /* Wheels attributes */
-        float wheelWidth = kombiWidth*0.1;
-        float wheelHeight = kombiHeight*0.15;
+        float signalLightRadius = kombiWidth*0.06;
+        float signalLightPosX = carLeftSide+kombiWidth*0.003;
+        float signalLightPosY = centerY;
+        leftSignalLight  = new SignalLight(signalLightPosX, signalLightPosY, signalLightRadius);
+        rightSignalLight  = new SignalLight(signalLightPosX, signalLightPosY, signalLightRadius);
 
-        /* Windows attributes */
-        float windowHeight =(greenhouseHeight-roofHeight)*0.8;
-        float windowWidth = kombiWidth*0.325;
-        float verticalPadding = (greenhouseHeight-roofHeight)*0.1;
+        float windowWidth = bodyCarWidth*0.35;
+        float windowHeight = kombiHeight*0.25;
+        float windowPosX = carLeftSide+kombiWidth*0.05; 
+        float windowPosY = kombiHeight*0.075;
+        leftWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -2*PI/3);
+        rightWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -PI/3);
 
-        /* Logo attributes */
-        float logoRadius = kombiWidth*0.2;
-        
-        /* Rearview attributes */
+        float rearviewBaseX = carLeftSide;
+        float rearviewBaseY = kombiHeight*0.35;
         float rearviewRadius = kombiWidth*0.07;
+        float rearviewWidth = kombiWidth*0.1;
 
-        /*  The top of kombi is 10%(5% in each side) narrow than the bottom
-            and the car greenhouse has 40% of kombi's kombiHeight
-        */
-        /* Kombi's roof and greenhouse */
-        fill(primaryColor);
-        arc(centerX, roofHeight, kombiWidth*0.9, roofHeight, PI, 2*PI);
-        quad(kombiWidth*0.05, roofHeight, kombiWidth*0.95, roofHeight, kombiWidth, greenhouseHeight, 0, greenhouseHeight);
-        rect(0, greenhouseHeight, kombiWidth, frontHeight);
-
-        
-        /* Trim accessories (frisos) */
-        fill(tertiaryColor);
-        arc(0, kombiHeight, kombiWidth, 2*frontHeight, PI+HALF_PI, 2*PI);
-        arc(kombiWidth, kombiHeight, kombiWidth, 2*frontHeight, PI, PI+HALF_PI);
-
-        /* Secondary car paint */
-        fill(secondaryColor);
-        arc(0, kombiHeight, kombiWidth-trimWidth, 2*frontHeight-trimWidth, PI+HALF_PI, 2*PI);
-        arc(kombiWidth, kombiHeight, kombiWidth-trimWidth, 2*frontHeight-trimWidth, PI, PI+HALF_PI);
-
-        /* Bumper */
-        fill(tertiaryColor);
-        rect(-kombiWidth*0.02, kombiHeight-bumperHeight, kombiWidth*1.04, bumperHeight, 10);
-        rect(kombiWidth*0.25, kombiHeight-bumperHeight*1.5, bumperHeight/2, bumperHeight*2, 10);
-        rect(kombiWidth*0.75-bumperHeight/2, kombiHeight-bumperHeight*1.5, bumperHeight/2, bumperHeight*2, 10);
-
-        /* License plate */   
-        /* TODO: Rework */    
-        fill(255);
-        rect(centerX-licensePlateWidth/2, kombiHeight-bumperHeight+kombiHeight*0.005, licensePlateWidth, bumperHeight-kombiHeight*0.01);
-        fill(0);
-        textAlign(CENTER);
-        textSize(bumperHeight*0.8);
-        text("ABC-1234", centerX, kombiHeight*1.005-bumperHeight/4);
-
-        /* Left car headlight */
-        fill(headlightExternalColor);
-        ellipse(kombiWidth*0.005+headlightRadius, centerY*1.3, headlightRadius*1.1, headlightRadius*1.1);
-        fill(headlightColor);
-        ellipse(kombiWidth*0.005+headlightRadius, centerY*1.3, headlightRadius, headlightRadius);
-
-        /* Right car headlight */
-        fill(headlightExternalColor);
-        ellipse(kombiWidth*0.995-headlightRadius, centerY*1.3, headlightRadius*1.1, headlightRadius*1.1);
-        fill(headlightColor);
-        ellipse(kombiWidth*0.995-headlightRadius, centerY*1.3, headlightRadius, headlightRadius);
-
-        /* Left signal light */
-        fill(signalLightExternalColor);
-        ellipse(kombiWidth*0.003+signalLightRadius, centerY*1.1, signalLightRadius*1.2, signalLightRadius*1.2);
-        fill(signalLightColor);
-        ellipse(kombiWidth*0.003+signalLightRadius, centerY*1.1, signalLightRadius, signalLightRadius);
-
-        /* Right signal light */
-        fill(signalLightExternalColor);
-        ellipse(kombiWidth*0.997-signalLightRadius, centerY*1.1, signalLightRadius*1.2, signalLightRadius*1.2);
-        fill(signalLightColor);
-        ellipse(kombiWidth*0.997-signalLightRadius, centerY*1.1, signalLightRadius, signalLightRadius);
-
-        pushMatrix();
-        fill(0);
-        /* Left wheel */
-        rect(kombiWidth*0.05, kombiHeight, wheelWidth, wheelHeight,0, 0, 20, 20);
-        
-        translate(centerX, 0);
-        scale(-1,1);
-        translate(-centerX, 0);
-
-        /* Right wheel */
-        rect(kombiWidth*0.05, kombiHeight, wheelWidth, wheelHeight,0, 0, 20, 20);
-        popMatrix();
-        
-        fill(windowColor);
-        pushMatrix();
-        translate(0, roofHeight+verticalPadding);
-        strokeWeight(3);
-        /* Right window */
-        quad(
-            kombiWidth*0.15, 0,
-            kombiWidth*0.15+windowWidth, 0,
-            kombiWidth*0.15+windowWidth, windowHeight,
-            kombiWidth*0.10, windowHeight
-        );
-
-        translate(centerX, 0);
-        scale(-1,1);
-        translate(-centerX, 0);
-
-        /* Left window */
-        quad(
-            kombiWidth*0.15, 0,
-            kombiWidth*0.15+windowWidth, 0,
-            kombiWidth*0.15+windowWidth, windowHeight,
-            kombiWidth*0.10, windowHeight
-        );
-        popMatrix();
-        
-        /* Left windshield wiper */
-        pushMatrix();
-        strokeWeight(7);
-        translate(0, roofHeight+verticalPadding);
-        translate(kombiWidth*0.15+windowWidth*0.5, windowHeight);
-        rotate(-4.0*PI/6.0);
-        line(0, 0, windowWidth*0.5, 0);
-        popMatrix();
-
-        /* Right windshield wiper */
-        pushMatrix();
-        translate(centerX, 0);
-        scale(-1,1);
-        translate(-centerX, 0);
-        translate(0, roofHeight+verticalPadding);
-        translate(kombiWidth*0.15+windowWidth*0.5, windowHeight);
-        rotate(-2.0*PI/6.0);
-        line(0, 0, windowWidth*0.5, 0);
-        popMatrix();
-
-        /* Left Rearview*/
-        stroke(tertiaryColor);
-        strokeWeight(rearviewRadius*0.1);
-        fill(secondaryColor);
-        ellipse(-kombiWidth*0.05, greenhouseHeight*0.9, rearviewRadius, rearviewRadius);
-        line(0, greenhouseHeight, -kombiWidth*0.05, greenhouseHeight*0.9);
-        pushMatrix();
+        leftRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
+        rightRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
+    }
 
 
-        /* Right Rearview*/
-        translate(centerX, 0);
-        scale(-1,1);
-        translate(-centerX, 0);
-        fill(secondaryColor);
-        ellipse(-kombiWidth*0.05, greenhouseHeight*0.9, rearviewRadius, rearviewRadius);
-        stroke(tertiaryColor);
-        line(0, greenhouseHeight, -kombiWidth*0.05, greenhouseHeight*0.9);
-        popMatrix();
-        
-        /* Logo */
-        stroke(0);
-        strokeWeight(trimWidth/2);
-        noFill();
-        arc(centerX, centerY*1.1, logoRadius, logoRadius, PI, 2*PI, CHORD);
-        fill(255);
-        arc(centerX, centerY*1.1, logoRadius, logoRadius, 0, PI, CHORD);
-        fill(tertiaryColor);
-        ellipse(centerX, centerY*1.1, logoRadius*0.2, logoRadius*0.2);
+    private void drawKombi() {
+        bodyCar.display();
+
+        leftHeadlight.display();
+        leftSignalLight.display();
+        leftWindshield.display();
+        leftRearview.display();
+        mirror();
+        rightRearview.display();
+        rightWindshield.display();
+        rightSignalLight.display();
+        rightHeadlight.display();
+    }
+
+    private void mirror() {
+        translate(centerX, centerY);
+        scale(-1, 1);
+        translate(-centerX, -centerY);
     }
 }
