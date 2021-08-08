@@ -11,6 +11,7 @@ class SignalLight {
     private color lightColor = color(255, 200, 80, 30);
 
     private boolean isActive = false;
+    private boolean isAlert = false;
     
     public SignalLight(float posX, float posY, float rd) {
         positionX = posX;
@@ -25,12 +26,28 @@ class SignalLight {
         pop();
     }
 
-    void changeMode() {
-        isActive = !isActive;
+    void setAlert(){
+        isAlert = true;
+    }
+
+    void setSignal(){
+        isAlert = false;
     }
 
     void turnOff() {
         isActive = false;
+    }
+
+    void turnOn() {
+        isActive = true;
+    }
+
+    boolean getActiveStatus(){
+        return isActive;
+    }
+
+    boolean isAlert(){
+        return isAlert;
     }
 
     void drawSignalLight() {
