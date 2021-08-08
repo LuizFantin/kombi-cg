@@ -7,7 +7,8 @@ class SignalLight {
     private color primaryColor = color(#FFBC40);
     private color secondaryColor = color(#D1D1D1);
 
-    private color activeColor = color(#FF6400);
+    private color activeColor = color(#f88500);
+    private color lightColor = color(255, 200, 80, 30);
 
     private boolean isActive = false;
     
@@ -35,8 +36,12 @@ class SignalLight {
     void drawSignalLight() {
         fill(secondaryColor);
         ellipse(radius, radius, radius*1.2, radius*1.2);
-        if(second() % 2 == 0 && isActive)
+        if(second() % 2 == 0 && isActive) {
+            noStroke();
+            fill(lightColor);
+            ellipse(radius*0.8, radius*0.76, 4*radius, 4*radius);
             fill(activeColor);
+        }
         else
             fill(primaryColor);
         ellipse(radius, radius, radius, radius);
