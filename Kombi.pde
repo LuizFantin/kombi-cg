@@ -46,6 +46,15 @@ class Kombi {
             leftWindshield.toggleWiper();
             rightWindshield.toggleWiper();
         }
+        //TODO Check if this logic handle alternate modes.
+        if(k == '4' || k == 'a' || k == 'A')
+            leftSignalLight.changeMode();
+        if(k == '6' || k == 'a' || k == 'A')
+            rightSignalLight.changeMode();
+        if(k == 'f' || k == 'F'){
+            rightHeadlight.changeMode();
+            leftHeadlight.changeMode();
+        }
     }
 
     private void initialize() {
