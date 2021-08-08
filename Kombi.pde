@@ -46,6 +46,10 @@ class Kombi {
             leftWindshield.toggleWiper();
             rightWindshield.toggleWiper();
         }
+        if(k == 'r' || k == 'R') {
+            leftRearview.toggleRearview();
+            rightRearview.toggleRearview();
+        }
     }
 
     private void initialize() {
