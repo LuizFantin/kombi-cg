@@ -46,11 +46,46 @@ class Kombi {
             leftWindshield.toggleWiper();
             rightWindshield.toggleWiper();
         }
-        //TODO Check if this logic handle alternate modes.
-        if(k == '4' || k == 'a' || k == 'A')
-            leftSignalLight.changeMode();
-        if(k == '6' || k == 'a' || k == 'A')
-            rightSignalLight.changeMode();
+
+        // Left signal light functionality
+        if(k == '4'){
+            rightSignalLight.turnOff();
+            if(leftSignalLight.getActiveStatus() && !leftSignalLight.isAlert())
+                leftSignalLight.turnOff();
+            else
+                leftSignalLight.turnOn();
+            leftSignalLight.setSignal();
+            rightSignalLight.setSignal();
+        }
+
+        // Right signal light functionality
+        if(k == '6'){
+            leftSignalLight.turnOff();
+            if(rightSignalLight.getActiveStatus() && !rightSignalLight.isAlert())
+                rightSignalLight.turnOff();
+            else
+                rightSignalLight.turnOn();
+            leftSignalLight.setSignal();
+            rightSignalLight.setSignal();
+        }
+
+        // Alert functionality
+        if(k == 'a' || k == 'A'){
+            if(rightSignalLight.isAlert()){
+                rightSignalLight.turnOff();
+                leftSignalLight.turnOff();
+
+                leftSignalLight.setSignal();
+                rightSignalLight.setSignal();
+            }
+            else{
+                rightSignalLight.turnOn();
+                leftSignalLight.turnOn();
+
+                leftSignalLight.setAlert();
+                rightSignalLight.setAlert();
+            }
+        }
         if(k == 'f' || k == 'F'){
             rightHeadlight.changeMode();
             leftHeadlight.changeMode();
