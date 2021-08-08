@@ -22,6 +22,8 @@ class Kombi {
     private Rearview leftRearview;
     private Rearview rightRearview;
 
+    private boolean isEngineOn = false;
+
     public Kombi(float posX, float posY, float w, float h) {
         positionX = posX;
         positionY = posY;
@@ -33,8 +35,8 @@ class Kombi {
         initialize();
     }
 
-    public void display() {
-        //This way, we can use (0, 0) as our referential point while drawing the kombi
+    public void run() {
+        startStopEngine();
         push();
         translate(positionX, positionY);
         drawKombi();
@@ -50,6 +52,23 @@ class Kombi {
             leftRearview.toggleRearview();
             rightRearview.toggleRearview();
         }
+        if(k == 'm' || k == 'M') {
+            toggleEngine();
+        }
+    }
+
+    public void toggleEngine() {
+        isEngineOn = !isEngineOn;
+    }
+
+    private void startStopEngine() {
+        if(isEngineOn) {
+            if(!engine.isPlaying()) {
+                engine.play();
+            }
+        }
+        else 
+            engine.stop();
     }
 
     private void initialize() {
@@ -85,7 +104,6 @@ class Kombi {
         leftRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
         rightRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
     }
-
 
     private void drawKombi() {
         bodyCar.display();
