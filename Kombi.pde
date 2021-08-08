@@ -59,7 +59,7 @@ class Kombi {
             leftRearview.toggleRearview();
         }
         // Left signal light functionality
-        if(k == '4'){
+        if(k == '4' || ((k == CODED) && (keyCode == LEFT))){
             rightSignalLight.turnOff();
             if(leftSignalLight.getActiveStatus() && !leftSignalLight.isAlert())
                 leftSignalLight.turnOff();
@@ -70,7 +70,7 @@ class Kombi {
         }
 
         // Right signal light functionality
-        if(k == '6'){
+        if(k == '6' || ((k == CODED) && (keyCode == RIGHT))){
             leftSignalLight.turnOff();
             if(rightSignalLight.getActiveStatus() && !rightSignalLight.isAlert())
                 rightSignalLight.turnOff();
