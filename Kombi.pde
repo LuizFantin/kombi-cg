@@ -54,6 +54,10 @@ class Kombi {
             toggleEngine();
         }
 
+        if(k == 'r' || k == 'R') {
+            rightRearview.toggleRearview();
+            leftRearview.toggleRearview();
+        }
         // Left signal light functionality
         if(k == '4'){
             rightSignalLight.turnOff();
