@@ -22,7 +22,7 @@ class Kombi {
     private Rearview leftRearview;
     private Rearview rightRearview;
 
-    Kombi(float posX, float posY, float w, float h) {
+    public Kombi(float posX, float posY, float w, float h) {
         positionX = posX;
         positionY = posY;
         kombiWidth  = w;
@@ -33,12 +33,19 @@ class Kombi {
         initialize();
     }
 
-    void display() {
+    public void display() {
         //This way, we can use (0, 0) as our referential point while drawing the kombi
         push();
         translate(positionX, positionY);
         drawKombi();
         pop();
+    }
+
+    public void processInput(char k) {
+        if(k == 'l' || k == 'L') {
+            leftWindshield.toggleWiper();
+            rightWindshield.toggleWiper();
+        }
     }
 
     private void initialize() {
@@ -63,8 +70,8 @@ class Kombi {
         float windowHeight = kombiHeight*0.25;
         float windowPosX = carLeftSide+kombiWidth*0.05; 
         float windowPosY = kombiHeight*0.075;
-        leftWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -2*PI/3);
-        rightWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -PI/3);
+        leftWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -120);
+        rightWindshield = new Windshield(windowPosX, windowPosY, windowWidth, windowHeight, -60);
 
         float rearviewBaseX = carLeftSide;
         float rearviewBaseY = kombiHeight*0.35;

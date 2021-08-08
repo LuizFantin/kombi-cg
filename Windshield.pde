@@ -10,22 +10,32 @@ class Windshield {
     private color wiperColor = color(0,0,0);
 
     private float wiperAngle;
+    private float defaultAngle;
+    private float wiperVelocity = 3;
 
-    public Windshield(float posX, float posY, float width, float height, float rad) {
+    private boolean isWiperOn = false;
+
+    public Windshield(float posX, float posY, float width, float height, float deg) {
         positionX = posX;
         positionY = posY;
         windowWidth = width;
         windowHeight = height;
 
-        wiperAngle = rad;
+        wiperAngle = deg;
+        defaultAngle = deg;
     }
 
     public void display() {
         push();
         translate(positionX, positionY);
         drawWindow();
+        rotateWiper();
         drawWiper();
         pop();      
+    }
+
+    public void toggleWiper() {
+        isWiperOn = !isWiperOn;
     }
     
     private void drawWindow() {
@@ -42,6 +52,15 @@ class Windshield {
         popStyle();
     }
     
+    private void rotateWiper() {
+        if(isWiperOn || wiperAngle != defaultAngle) {
+            if(wiperAngle > -60 || wiperAngle < -120)
+                wiperVelocity *=-1;
+            wiperAngle += wiperVelocity;
+        }
+    }
+
+
     private void drawWiper() {
         float wiperLength = windowWidth*0.7;
         float wiperWidth = 7;
@@ -51,7 +70,7 @@ class Windshield {
         translate(0.1*positionX+windowWidth/2, windowHeight);
         stroke(wiperColor);
         strokeWeight(wiperWidth);
-        rotate(wiperAngle);
+        rotate(radians(wiperAngle));
         line(0, 0, wiperLength, 0);
         pop();
     }
