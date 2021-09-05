@@ -23,7 +23,6 @@ class BodyCar {
     private String licensePlaceValue = "ABC-1234";
 
     private PShape greenhouse;
-    private PShape greenhouseDetails;
     private PShape roof;
     
     public BodyCar(float posX, float posY, float w, float h) {
@@ -41,7 +40,6 @@ class BodyCar {
         chromePartsWidth = width*0.05;
         carBottom = roofHeight+greenhouseHeight+frontHeight;
         greenhouse = createGreenhouse();
-        greenhouseDetails = createGreehouseDetails();
         roof = createRoof();
     }
 
@@ -68,11 +66,6 @@ class BodyCar {
         /* Greenhouse */
         pushMatrix();
         shape(greenhouse);
-        popMatrix();
-
-        /* Greenhouse Details */
-        pushMatrix();
-        shape(greenhouseDetails);
         popMatrix();
 
         /* Front */
@@ -223,6 +216,10 @@ class BodyCar {
         greenhouse.vertex(width, greenhouseHeight+roofHeight, 0);
         greenhouse.vertex(width*0.95, roofHeight, length*0.05);
 
+        greenhouse.fill(secondaryColor);
+        greenhouse.vertex(width, greenhouseHeight+roofHeight, 0);
+        greenhouse.vertex(width*0.95, roofHeight, length*0.05);
+
         greenhouse.vertex(width, greenhouseHeight+roofHeight, length);
         greenhouse.vertex(width*0.95, roofHeight, length*0.95);
 
@@ -235,28 +232,6 @@ class BodyCar {
         return greenhouse;
     }
 
-    PShape createGreehouseDetails() {
-        PShape details = createShape();
-        details.beginShape(QUAD_STRIP);
-        details.fill(secondaryColor);
-        details.vertex(0, greenhouseHeight+roofHeight, 0);
-        details.vertex(width*0.4, roofHeight, length*0.06);
-
-        details.vertex(width, greenhouseHeight+roofHeight, 0);
-        details.vertex(width*0.96, roofHeight, length*0.06);
-
-        details.vertex(width, greenhouseHeight+roofHeight, length);
-        details.vertex(width*0.96, roofHeight, length*0.96);
-
-        details.vertex(0, greenhouseHeight+roofHeight, length);
-        details.vertex(width*0.04, roofHeight, length*0.96);
-
-        details.vertex(0, greenhouseHeight+roofHeight, 0);
-        details.vertex(width*0.04, roofHeight, length*0.06);
-        details.endShape();
-        return details;
-    }
-
     PShape createRoof() {
         float angleIncrement = PI/16;
         PShape roof = createShape(GROUP);
@@ -266,6 +241,7 @@ class BodyCar {
 
         top.beginShape(QUAD_STRIP);
         top.fill(primaryColor);
+        top.noStroke();
         for(int dPhi = 16; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
             top.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), 0);
             top.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), length*0.9);
