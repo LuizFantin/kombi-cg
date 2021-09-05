@@ -112,14 +112,55 @@ class BodyCar {
 
     private void drawWheels() {
         /* Wheels attributes */
-        float wheelWidth = width*0.1;
-        float wheelHeight = height-carBottom;
+        float wheelWidth = width*0.15;
 
+        // Wheels
         pushStyle();
+        
         fill(0);
-        rect(width*0.05, carBottom, wheelWidth, wheelHeight,0, 0, 20, 20);
-        rect(width*0.85, carBottom, wheelWidth, wheelHeight,0, 0, 20, 20);
+        pushMatrix();
+        rotY(-width*0.01, carBottom, length*0.2, PI/2);
+        cilinder(width*0.01, carBottom, length*0.2, wheelWidth, wheelWidth);
+        popMatrix();
+        pushMatrix();
+        rotY(width*0.86, carBottom, length*0.2, PI/2);
+        cilinder(width*0.85, carBottom, length*0.2, wheelWidth, wheelWidth);
+        popMatrix();
+        pushMatrix();
+        rotY(-width*0.01, carBottom, length*0.9, PI/2);
+        cilinder(width*0.01, carBottom, length*0.9, wheelWidth, wheelWidth);
+        popMatrix();
+        pushMatrix();
+        rotY(width*0.86, carBottom, length*0.9, PI/2);
+        cilinder(width*0.85, carBottom, length*0.9, wheelWidth, wheelWidth);
+        popMatrix();
+        
         popStyle();
+
+
+        // Hubcaps
+        pushStyle();
+        
+        fill(tertiaryColor);
+        pushMatrix();
+        rotY(-width*0.02, carBottom, length*0.2, PI/2);
+        cilinder(width*0.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
+        popMatrix();
+        pushMatrix();
+        rotY(width*1.01, carBottom, length*0.2, PI/2);
+        cilinder(width*1.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
+        popMatrix();
+        pushMatrix();
+        rotY(-width*0.02, carBottom, length*0.9, PI/2);
+        cilinder(width*0.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
+        popMatrix();
+        pushMatrix();
+        rotY(width*1.01, carBottom, length*0.9, PI/2);
+        cilinder(width*1.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
+        popMatrix();
+        
+        popStyle();
+
     }
 
     private void drawBumper() {
@@ -243,5 +284,4 @@ class BodyCar {
         endShape(CLOSE);
         translate(-x, -y, -z);
     }
-
 }
