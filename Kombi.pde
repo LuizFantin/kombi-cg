@@ -22,6 +22,10 @@ class Kombi {
     private Rearview leftRearview;
     private Rearview rightRearview;
 
+    private ArrayList<Window> sideWindows;
+    PShape leftWindow;
+    PShape rightWindow;
+
     public Kombi(float posX, float posY, float w, float h) {
         positionX = posX;
         positionY = posY;
@@ -29,6 +33,8 @@ class Kombi {
         kombiHeight = h;
         centerX = kombiWidth/2;
         centerY = kombiHeight/2;
+
+        sideWindows = new ArrayList<Window>();
 
         initialize();
     }
@@ -127,6 +133,41 @@ class Kombi {
 
         leftRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
         rightRearview = new Rearview(rearviewBaseX, rearviewBaseY, rearviewRadius, rearviewWidth, kombiHeight);
+
+
+        float length = -500;
+        float sideWindowPosX = carLeftSide;
+        float sideWindowPosY = windowPosY;
+        float sideWindowPosZ =  length*0.3;
+        float distanceBetweenSideWindows = length*0.02;
+        float sideWindowWidth = length*0.125;
+        float sideWindowHeight = windowHeight;
+        for(int i = 0; i < 4; ++i) {
+            Window w = new Window(
+                sideWindowPosX,
+                sideWindowPosY,
+                sideWindowPosZ+i*(sideWindowWidth+distanceBetweenSideWindows),
+                sideWindowWidth,
+                sideWindowHeight,
+                Window.LEFT_WINDOW,
+                bodyCarWidth
+            );
+            sideWindows.add(w);
+        }
+        for(int i = 0; i < 4; ++i) {
+            Window w = new Window(
+                sideWindowPosX+bodyCarWidth,
+                sideWindowPosY,
+                sideWindowPosZ+i*(sideWindowWidth+distanceBetweenSideWindows),
+                sideWindowWidth,
+                sideWindowHeight,
+                Window.RIGHT_WINDOW,
+                bodyCarWidth
+            );
+            sideWindows.add(w);
+        }
+
+        createWindow(carLeftSide, windowPosY, length*0.08, windowWidth*0.8, windowHeight, bodyCarWidth);
     }
 
     private void drawKombi() {
@@ -135,6 +176,11 @@ class Kombi {
         leftSignalLight.display();
         leftWindshield.display();
         leftRearview.display();
+        shape(leftWindow);
+        shape(rightWindow);
+        for(Window sideWindow : sideWindows) {
+            sideWindow.drawWindow();
+        }
         mirror();
         rightRearview.display();
         rightWindshield.display();
@@ -147,4 +193,27 @@ class Kombi {
         scale(-1, 1);
         translate(-centerX, -centerY);
     }
+
+    private void createWindow(float baseX, float baseY, float baseZ, float width, float height, float carWidth) {
+        color windowColor = color(180, 180, 255);
+        leftWindow = createShape();
+        leftWindow.beginShape();
+        leftWindow.fill(windowColor);
+        leftWindow.vertex(baseX+carWidth*0.045, baseY, baseZ);
+        leftWindow.vertex(baseX+carWidth*0.045, baseY, baseZ-width);
+        leftWindow.vertex(baseX, baseY+height, baseZ-width);
+        leftWindow.vertex(baseX, baseY+height, baseZ+0.15*width);
+        leftWindow.endShape(CLOSE);
+        
+        rightWindow = createShape();
+        rightWindow.beginShape();
+        rightWindow.fill(windowColor);
+        rightWindow.vertex(baseX+carWidth*0.955, baseY, baseZ);
+        rightWindow.vertex(baseX+carWidth*0.955, baseY, baseZ-width);
+        rightWindow.vertex(baseX+carWidth, baseY+height, baseZ-width);
+        rightWindow.vertex(baseX+carWidth, baseY+height, baseZ+0.13*width);
+        rightWindow.endShape(CLOSE);
+        
+    }
+
 }

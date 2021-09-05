@@ -120,19 +120,19 @@ class BodyCar {
         fill(0);
         pushMatrix();
         rotY(-width*0.01, carBottom, length*0.2, PI/2);
-        cilinder(width*0.01, carBottom, length*0.2, wheelWidth, wheelWidth);
+        cylinder(width*0.01, carBottom, length*0.2, wheelWidth, wheelWidth);
         popMatrix();
         pushMatrix();
         rotY(width*0.86, carBottom, length*0.2, PI/2);
-        cilinder(width*0.85, carBottom, length*0.2, wheelWidth, wheelWidth);
+        cylinder(width*0.85, carBottom, length*0.2, wheelWidth, wheelWidth);
         popMatrix();
         pushMatrix();
         rotY(-width*0.01, carBottom, length*0.9, PI/2);
-        cilinder(width*0.01, carBottom, length*0.9, wheelWidth, wheelWidth);
+        cylinder(width*0.01, carBottom, length*0.9, wheelWidth, wheelWidth);
         popMatrix();
         pushMatrix();
         rotY(width*0.86, carBottom, length*0.9, PI/2);
-        cilinder(width*0.85, carBottom, length*0.9, wheelWidth, wheelWidth);
+        cylinder(width*0.85, carBottom, length*0.9, wheelWidth, wheelWidth);
         popMatrix();
         
         popStyle();
@@ -144,19 +144,19 @@ class BodyCar {
         fill(tertiaryColor);
         pushMatrix();
         rotY(-width*0.02, carBottom, length*0.2, PI/2);
-        cilinder(width*0.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
+        cylinder(width*0.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
         popMatrix();
         pushMatrix();
         rotY(width*1.01, carBottom, length*0.2, PI/2);
-        cilinder(width*1.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
+        cylinder(width*1.01, carBottom, length*0.2, wheelWidth*0.6, wheelWidth*0.01);
         popMatrix();
         pushMatrix();
         rotY(-width*0.02, carBottom, length*0.9, PI/2);
-        cilinder(width*0.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
+        cylinder(width*0.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
         popMatrix();
         pushMatrix();
         rotY(width*1.01, carBottom, length*0.9, PI/2);
-        cilinder(width*1.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
+        cylinder(width*1.01, carBottom, length*0.9, wheelWidth*0.6, wheelWidth*0.01);
         popMatrix();
         
         popStyle();
@@ -263,7 +263,7 @@ class BodyCar {
         return roof;
     }
 
-    void cilinder(float x, float y, float z, float radius, float height) {
+    private void cylinder(float x, float y, float z, float radius, float height) {
         float angleIncrement = PI/16;
         translate(x, y, z);
         beginShape(QUAD_STRIP);
