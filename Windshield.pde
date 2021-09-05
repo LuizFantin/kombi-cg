@@ -5,6 +5,7 @@ class Windshield {
 
     private float windowWidth;
     private float windowHeight;
+    private PShape window;
 
     private color windowColor = color(180, 180, 255, 255);
     private color wiperColor = color(0,0,0);
@@ -23,14 +24,12 @@ class Windshield {
 
         wiperAngle = deg;
         defaultAngle = deg;
+        window = createWindow();
     }
 
     public void display() {
         push();
         translate(positionX, positionY, 1);
-        translate(0, windowHeight, 0);
-        rotateX(PI/6);
-        translate(0, -windowHeight, 0);
         drawWindow();
         rotateWiper();
         drawWiper();
@@ -46,12 +45,10 @@ class Windshield {
         fill(windowColor);
         strokeWeight(3);
         /* Left windshield window  */
-        quad(
-            0.2*positionX, 0,
-            0.2*positionX+windowWidth, 0,
-            0.2*positionX+windowWidth, windowHeight,
-            0, windowHeight 
-        );
+        pushMatrix();
+        translate(0, 0, 1);
+        shape(window);
+        popMatrix();
         popStyle();
     }
     
@@ -76,5 +73,22 @@ class Windshield {
         rotate(radians(wiperAngle));
         line(0, 0, wiperLength, 0);
         pop();
+    }
+
+
+    PShape createWindow() {
+        float length = -500;
+        PShape window = createShape();
+        window.beginShape(QUAD_STRIP);
+        window.fill(windowColor);
+        
+        window.vertex(0.2*positionX, 0, length*0.05);
+        window.vertex(0, windowHeight, 0);
+
+        window.vertex(0.2*positionX+windowWidth, 0, length*0.05);
+        window.vertex(0.2*positionX+windowWidth, windowHeight, 0);
+
+        window.endShape();
+        return window;
     }
 }

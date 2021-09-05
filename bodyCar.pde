@@ -7,6 +7,7 @@ class BodyCar {
 
     private float width;
     private float height;
+    private float length = -500;
 
     private float roofHeight;
     private float greenhouseHeight;
@@ -20,6 +21,9 @@ class BodyCar {
     private color tertiaryColor = color(180, 180, 180);
 
     private String licensePlaceValue = "ABC-1234";
+
+    private PShape greenhouse;
+    private PShape roof;
     
     public BodyCar(float posX, float posY, float w, float h) {
         positionX = posX;
@@ -35,6 +39,8 @@ class BodyCar {
         frontHeight = height*0.5;
         chromePartsWidth = width*0.05;
         carBottom = roofHeight+greenhouseHeight+frontHeight;
+        greenhouse = createGreenhouse();
+        roof = createRoof();
     }
 
     public void display() {
@@ -52,34 +58,22 @@ class BodyCar {
         fill(primaryColor);
 
         /* Roof */
-        arc(centerX, roofHeight, width*0.9, 2*roofHeight, PI, 2*PI);
+        pushMatrix();
+        translate(centerX, roofHeight, length*0.05);
+        shape(roof);
+        popMatrix();
 
-        float length = -500;
         /* Greenhouse */
         pushMatrix();
-        beginShape();
-        rotX(0, greenhouseHeight+roofHeight, 0, PI/6);
-        vertex(width*0.05, roofHeight, 0);
-        vertex(width*0.95, roofHeight, 0);
-        vertex(width, greenhouseHeight+roofHeight, 0);
-        vertex(0, greenhouseHeight+roofHeight, 0);
-        endShape(CLOSE);
+        shape(greenhouse);
         popMatrix();
         
         /* Front */
         rect(0, greenhouseHeight+roofHeight, width, frontHeight);
-        beginShape(QUAD_STRIP);
-        vertex(width, greenhouseHeight+roofHeight, 0);
-        vertex(width, greenhouseHeight+roofHeight+frontHeight, 0);
-        vertex(width, greenhouseHeight+roofHeight, length);
-        vertex(width, greenhouseHeight+roofHeight+frontHeight, length);
-        vertex(0, greenhouseHeight+roofHeight, length);
-        vertex(0, greenhouseHeight+roofHeight+frontHeight, length);
-        vertex(0, greenhouseHeight+roofHeight, length);
-        vertex(0, greenhouseHeight+roofHeight+frontHeight, length);
-        vertex(0, greenhouseHeight+roofHeight, 0);
-        vertex(0, greenhouseHeight+roofHeight+frontHeight, 0);
-        endShape();
+        pushMatrix();
+        translate(centerX, greenhouseHeight+roofHeight+frontHeight/2, length/2);
+        box(width, frontHeight, length);
+        popMatrix();
 
         pushMatrix();
         /* Chrome parts */
@@ -169,6 +163,85 @@ class BodyCar {
         translate(baseX, baseY, baseZ);
         rotateZ(rad);
         translate(-baseX, -baseY, -baseZ);
+    }
+
+    PShape createGreenhouse() {
+        PShape greenhouse = createShape();
+        greenhouse.beginShape(QUAD_STRIP);
+        greenhouse.fill(primaryColor);
+        greenhouse.vertex(0, greenhouseHeight+roofHeight, 0);
+        greenhouse.vertex(width*0.05, roofHeight, length*0.05);
+
+        greenhouse.vertex(width, greenhouseHeight+roofHeight, 0);
+        greenhouse.vertex(width*0.95, roofHeight, length*0.05);
+
+        greenhouse.vertex(width, greenhouseHeight+roofHeight, length);
+        greenhouse.vertex(width*0.95, roofHeight, length*0.95);
+
+        greenhouse.vertex(0, greenhouseHeight+roofHeight, length);
+        greenhouse.vertex(width*0.05, roofHeight, length*0.95);
+
+        greenhouse.vertex(0, greenhouseHeight+roofHeight, 0);
+        greenhouse.vertex(width*0.05, roofHeight, length*0.05);
+        greenhouse.endShape();
+        return greenhouse;
+    }
+
+    PShape createRoof() {
+        float angleIncrement = PI/16;
+        PShape roof = createShape(GROUP);
+        PShape top = createShape();
+        PShape front = createShape();
+        PShape back = createShape();
+
+        top.beginShape(QUAD_STRIP);
+        top.fill(primaryColor);
+        for(int dPhi = 16; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            top.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), 0);
+            top.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), length*0.9);
+        }   
+        top.endShape();
+
+        front.beginShape();
+        front.fill(primaryColor);
+        for(int dPhi = 16; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            front.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), 0);
+        }   
+        front.endShape(CLOSE);
+
+        back.beginShape();
+        back.fill(primaryColor);
+        for(int dPhi = 16; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            back.vertex((0.9*width/2)*cos(dPhi*angleIncrement), roofHeight*sin(dPhi*angleIncrement), length*0.9);
+        }   
+        back.endShape(CLOSE);
+
+        roof.addChild(top);
+        roof.addChild(front);
+        roof.addChild(back);
+        return roof;
+    }
+
+    void cilinder(float x, float y, float z, float radius, float height) {
+        float angleIncrement = PI/16;
+        translate(x, y, z);
+        beginShape(QUAD_STRIP);
+        for(int dPhi = 0; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            vertex(radius*cos(dPhi*angleIncrement), radius*sin(dPhi*angleIncrement), 0);
+            vertex(radius*cos(dPhi*angleIncrement), radius*sin(dPhi*angleIncrement), height);
+        }   
+        endShape();
+        beginShape();
+        for(int dPhi = 0; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            vertex(radius*cos(dPhi*angleIncrement), radius*sin(dPhi*angleIncrement), 0);
+        }   
+        endShape(CLOSE);
+        beginShape();
+        for(int dPhi = 0; dPhi <= round(2*PI/angleIncrement); ++dPhi) {
+            vertex(radius*cos(dPhi*angleIncrement), radius*sin(dPhi*angleIncrement), height);
+        }   
+        endShape(CLOSE);
+        translate(-x, -y, -z);
     }
 
 }
