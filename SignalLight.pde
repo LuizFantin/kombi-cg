@@ -21,7 +21,7 @@ class SignalLight {
 
     void display() {
         push();
-        translate(positionX, positionY);
+        translate(positionX, positionY, 3);
         drawSignalLight();
         pop();
     }
@@ -53,6 +53,7 @@ class SignalLight {
     void drawSignalLight() {
         fill(secondaryColor);
         ellipse(radius, radius, radius*1.2, radius*1.2);
+        translate(0, 0, 1);
         if(second() % 2 == 0 && isActive) {
             noStroke();
             fill(lightColor);

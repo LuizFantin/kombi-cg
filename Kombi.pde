@@ -22,8 +22,6 @@ class Kombi {
     private Rearview leftRearview;
     private Rearview rightRearview;
 
-    private boolean isEngineOn = false;
-
     public Kombi(float posX, float posY, float w, float h) {
         positionX = posX;
         positionY = posY;
@@ -36,7 +34,6 @@ class Kombi {
     }
 
     public void run() {
-        startStopEngine();
         push();
         translate(positionX, positionY);
         drawKombi();
@@ -47,11 +44,6 @@ class Kombi {
         if(k == 'l' || k == 'L') {
             leftWindshield.toggleWiper();
             rightWindshield.toggleWiper();
-        }
-
-        // Music
-        if(k == 'm' || k == 'M') {
-            toggleEngine();
         }
 
         if(k == 'r' || k == 'R') {
@@ -103,20 +95,6 @@ class Kombi {
         }
     }
 
-    public void toggleEngine() {
-        isEngineOn = !isEngineOn;
-    }
-
-    private void startStopEngine() {
-        if(isEngineOn) {
-            if(!engine.isPlaying()) {
-                engine.play();
-            }
-        }
-        else 
-            engine.stop();
-    }
-
     private void initialize() {
         float bodyCarWidth = kombiWidth*0.7;
         float carLeftSide = kombiWidth*0.15;
@@ -153,7 +131,6 @@ class Kombi {
 
     private void drawKombi() {
         bodyCar.display();
-
         leftHeadlight.display();
         leftSignalLight.display();
         leftWindshield.display();

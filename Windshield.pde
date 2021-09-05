@@ -27,7 +27,10 @@ class Windshield {
 
     public void display() {
         push();
-        translate(positionX, positionY);
+        translate(positionX, positionY, 1);
+        translate(0, windowHeight, 0);
+        rotateX(PI/6);
+        translate(0, -windowHeight, 0);
         drawWindow();
         rotateWiper();
         drawWiper();

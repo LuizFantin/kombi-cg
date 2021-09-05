@@ -20,7 +20,7 @@ class Headlight {
 
     public void display() {
         push();
-        translate(positionX, positionY);
+        translate(positionX, positionY, 3);
         drawHeadlight();
         pop();
     }
@@ -32,6 +32,7 @@ class Headlight {
     public void drawHeadlight() {
         fill(secondaryColor);
         ellipse(radius, radius, radius*1.1, radius*1.1);
+        translate(0,0,1);
         if(isActive) {
             noStroke();
             fill(lightColor);

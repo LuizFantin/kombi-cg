@@ -54,24 +54,46 @@ class BodyCar {
         /* Roof */
         arc(centerX, roofHeight, width*0.9, 2*roofHeight, PI, 2*PI);
 
+        float length = -500;
         /* Greenhouse */
-        quad(width*0.05, roofHeight,
-             width*0.95, roofHeight,
-             width, greenhouseHeight+roofHeight,
-             0, greenhouseHeight+roofHeight);
-
+        pushMatrix();
+        beginShape();
+        rotX(0, greenhouseHeight+roofHeight, 0, PI/6);
+        vertex(width*0.05, roofHeight, 0);
+        vertex(width*0.95, roofHeight, 0);
+        vertex(width, greenhouseHeight+roofHeight, 0);
+        vertex(0, greenhouseHeight+roofHeight, 0);
+        endShape(CLOSE);
+        popMatrix();
+        
         /* Front */
         rect(0, greenhouseHeight+roofHeight, width, frontHeight);
+        beginShape(QUAD_STRIP);
+        vertex(width, greenhouseHeight+roofHeight, 0);
+        vertex(width, greenhouseHeight+roofHeight+frontHeight, 0);
+        vertex(width, greenhouseHeight+roofHeight, length);
+        vertex(width, greenhouseHeight+roofHeight+frontHeight, length);
+        vertex(0, greenhouseHeight+roofHeight, length);
+        vertex(0, greenhouseHeight+roofHeight+frontHeight, length);
+        vertex(0, greenhouseHeight+roofHeight, length);
+        vertex(0, greenhouseHeight+roofHeight+frontHeight, length);
+        vertex(0, greenhouseHeight+roofHeight, 0);
+        vertex(0, greenhouseHeight+roofHeight+frontHeight, 0);
+        endShape();
 
+        pushMatrix();
         /* Chrome parts */
+        translate(0, 0, 1);
         fill(tertiaryColor);
         arc(0, carBottom, width, 2*frontHeight, PI+HALF_PI, 2*PI);
         arc(width, carBottom, width, 2*frontHeight, PI, PI+HALF_PI);
 
         /* Secondary paint */
+        translate(0, 0, 1);
         fill(secondaryColor);
         arc(0, carBottom, width-chromePartsWidth, 2*frontHeight-chromePartsWidth, PI+HALF_PI, 2*PI);
         arc(width, carBottom, width-chromePartsWidth, 2*frontHeight-chromePartsWidth, PI, PI+HALF_PI);
+        popMatrix();
         popStyle();
     }
 
@@ -80,6 +102,8 @@ class BodyCar {
         float logoRadius = width*0.2;
         pushStyle();
         /* Logo */
+        pushMatrix();
+        translate(0, 0, 1);
         stroke(0);
         strokeWeight(chromePartsWidth/2);
         noFill();
@@ -88,6 +112,7 @@ class BodyCar {
         arc(centerX, centerY, logoRadius, logoRadius, 0, PI, CHORD);
         fill(tertiaryColor);
         ellipse(centerX, centerY, logoRadius*0.2, logoRadius*0.2);
+        popMatrix();
         popStyle();
     }
 
@@ -109,20 +134,41 @@ class BodyCar {
         float licensePlateWidth = width*0.25;
 
         pushStyle();
+        pushMatrix();
         /* Bumper */
+        translate(0, 0, 3);   
         fill(tertiaryColor);
         rect(-width*0.02, carBottom-bumperHeight, width*1.04, bumperHeight, 10);
+        translate(0, 0, 1);   
         rect(width*0.25, carBottom-bumperHeight*1.5, bumperHeight/2, bumperHeight*2, 10);
         rect(width*0.75-bumperHeight/2, carBottom-bumperHeight*1.5, bumperHeight/2, bumperHeight*2, 10);
         
-        /* License plate */     
+        /* License plate */  
         fill(255);
         rect(centerX-licensePlateWidth/2, carBottom*1.05-bumperHeight, licensePlateWidth, bumperHeight-carBottom*0.1);
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(bumperHeight*0.65);
+        translate(0, 0, 1);   
         text(licensePlaceValue, centerX, carBottom-bumperHeight/2);
+        popMatrix();
         popStyle();
+    }
+
+    void rotX(float baseX, float baseY, float baseZ, float rad) {
+        translate(baseX, baseY, baseZ);
+        rotateX(rad);
+        translate(-baseX, -baseY, -baseZ);
+    }
+    void rotY(float baseX, float baseY, float baseZ, float rad) {
+        translate(baseX, baseY, baseZ);
+        rotateY(rad);
+        translate(-baseX, -baseY, -baseZ);
+    }
+    void rotZ(float baseX, float baseY, float baseZ, float rad) {
+        translate(baseX, baseY, baseZ);
+        rotateZ(rad);
+        translate(-baseX, -baseY, -baseZ);
     }
 
 }
